@@ -31,7 +31,7 @@
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="product">
                     <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/ffca0150-fb25-41ac-a068-a2efa4f04a24_producto-205.png?auto=compress,format" alt="">
-                    <p>Maxi Bucket 25 Nuggets</p>
+                    <p>Maxi Cubo 25 Nuggets</p>
                 </div>
             </div>
             <div class="col-6 col-md-4 col-lg-3">
@@ -49,9 +49,57 @@
             <div class="col-6 col-md-4 col-lg-3">
                 <div class="product">
                     <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/530f704f-9a51-4bc6-85af-a681211d33c8_producto-34.png?auto=compress,format" alt="">
-                    <p>Maxi Bucket 10 Alitas + 10 Nuggets</p>
+                    <p>Maxi Cubo 10 Alitas + 10 Nuggets</p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.start()
+
+    recognition.onresult = (event) => {
+        var selected = false;
+        const results = event.results;
+        const text = results[results.length - 1][0].transcript;
+        $('.product').each(function() {
+            if ($(this).find('p').text().trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase())) {
+                $(this).addClass('active')
+                selected = true;
+            }
+        })
+
+        if (text.trim().toLocaleLowerCase() == 'Maxi cubo 10 alitas más 10 Nuggets'.toLocaleLowerCase()) {
+           $('.product').each(function() {
+                if ($(this).find('p').text().trim().includes('Maxi Cubo 10 Alitas + 10 Nuggets')) {
+                    $(this).addClass('active')
+                    selected = true;
+                }
+            })
+        }
+        if (selected) {
+            const type = 'complemento';
+            const product = $('.active').find('p').text();
+            const img = $('.active').find('img').attr('src');
+            $.ajax({
+                type: "POST",
+                url: '/save',
+                data: {
+                    type: type,
+                    product: product,
+                    img: img
+                },
+                success: function(data) {
+                    setTimeout(function() {
+                        window.location.href = "/seleccion-postre";
+                    }, 1000)
+                }
+            });
+        }
+    }
+</script>

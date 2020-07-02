@@ -1,0 +1,88 @@
+<div class="main text-center">
+    <div class="container">
+        <div class="pt-4 pb-0">
+            <h1>Seleccione postre o helado</h1>
+        </div>
+        <div class="row pb-5">
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/3732dd1c-9076-485a-83c5-8ab5b3e6a283_producto-207.png?auto=compress,format" alt="">
+                    <p>McFlurry Kit Kat</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/1fc1dee1-7a5a-4870-a141-291deea06fea_2b35038a0877ef087c9d501d1df67c1c+copy.png?auto=compress,format" alt="">
+                    <p>McFlurry Oreo</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/8c0a0331-9c2d-4bfc-bd54-0677a1ed824e_290x219_Sundae_Chocolate_Sin_Cacahuetes+copy.png?auto=compress,format" alt="">
+                    <p>Sundae Chocolate</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/1e210d1d-1247-42e5-a715-8c97bba2073b_producto-124.png?auto=compress,format" alt="">
+                    <p>Sundae Caramelo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.start()
+
+    recognition.onresult = (event) => {
+        var selected = false;
+        const results = event.results;
+        const text = results[results.length - 1][0].transcript;
+        $('.product').each(function() {
+            if ($(this).find('p').text().trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase())) {
+                $(this).addClass('active')
+                selected = true;
+            }
+        })
+        if (text.trim().toLocaleLowerCase().includes('chocolate')) {
+            $('.product').each(function() {
+                if ($(this).find('p').text().includes('Sundae Chocolate')) {
+                    $(this).addClass('active')
+                    selected = true;
+                }
+            })
+        }
+        if (text.trim().toLocaleLowerCase().includes('caramelo')) {
+            $('.product').each(function() {
+                if ($(this).find('p').text().includes('Sundae Caramelo')) {
+                    $(this).addClass('active')
+                    selected = true;
+                }
+            })
+        }
+        if (selected) {
+            const type = 'postre';
+            const product = $('.active').find('p').text();
+            const img = $('.active').find('img').attr('src');
+            $.ajax({
+                type: "POST",
+                url: '/save',
+                data: {
+                    type: type,
+                    product: product,
+                    img: img
+                },
+                success: function(data) {
+                    setTimeout(function() {
+                        window.location.href = "/seleccion-bebida";
+                    }, 1000)
+                }
+            });
+        }
+    }
+</script>

@@ -1,0 +1,73 @@
+<div class="main text-center">
+    <div class="container">
+        <div class="pt-4 pb-0">
+            <h1>Seleccione postre o helado</h1>
+        </div>
+        <div class="row pb-5">
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/5b6931a9-76d3-4f32-a446-e8f26e8d3a69_producto-237.png?auto=compress,format" alt="">
+                    <p>Coca-Cola</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/5b6931a9-76d3-4f32-a446-e8f26e8d3a69_producto-237.png?auto=compress,format" alt="">
+                    <p>Coca-Cola Zero</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/4cbfbcef-4e82-4bb8-9600-45e7200a5ac1_producto-80.png?auto=compress,format" alt="">
+                    <p>Cerveza</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/52cb6a85-a601-4993-8711-de79538c9a0c_producto-78.png?auto=compress,format" alt="">
+                    <p>Agua</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.start()
+
+    recognition.onresult = (event) => {
+        var selected = false;
+        const results = event.results;
+        const text = results[results.length - 1][0].transcript;
+		console.log(text)
+        $('.product').each(function() {
+            if ($(this).find('p').text().trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase())) {
+                $(this).addClass('active')
+                selected = true;
+            }
+        })
+        if (selected) {
+            const type = 'bebida';
+            const product = $('.active').find('p').text();
+            const img = $('.active').find('img').attr('src');
+            $.ajax({
+                type: "POST",
+                url: '/save',
+                data: {
+                    type: type,
+                    product: product,
+                    img: img
+                },
+                success: function(data) {
+                    setTimeout(function() {
+                        window.location.href = "/cuenta";
+                    }, 1000)
+                }
+            });
+        }
+    }
+</script>

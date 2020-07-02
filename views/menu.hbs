@@ -67,9 +67,7 @@
         var selected = false;
         const results = event.results;
         const text = results[results.length - 1][0].transcript;
-        console.log(text)
         $('.product').each(function() {
-            $(this).find('p').text().trim()
             if ($(this).find('p').text().trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase())) {
                 $(this).addClass('active')
                 selected = true;
@@ -85,9 +83,23 @@
             })
         }
         if (selected) {
-            setTimeout(function() {
-                window.location.href = "/seleccion-complemento";
-            }, 1000)
+            const type = 'menu';
+            const product = $('.active').find('p').text();
+            const img = $('.active').find('img').attr('src');
+            $.ajax({
+                type: "POST",
+                url: '/save',
+                data: {
+                    type: type,
+                    product: product,
+                    img: img
+                },
+                success: function(data) {
+                    setTimeout(function() {
+                        window.location.href = "/seleccion-complemento";
+                    }, 1000)
+                }
+            });
         }
     }
 </script>

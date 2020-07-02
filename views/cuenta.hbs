@@ -1,0 +1,21 @@
+<div class="main text-center">
+    <div class="container">
+        <div class="pt-4 pb-0">
+            <h1>Usted ha pedido</h1>
+        </div>
+        <div class="row justify-content-center">
+            {{#each cuenta}}
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="{{this.img}}" alt="">
+                    <p>{{this.product}}</p>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+        <div class="text-center py-3">
+            <h1>Para pagar:</h1>
+            <img src="images/qr.png" alt="" width="250px">
+        </div>
+    </div>
+</div>
