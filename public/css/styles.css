@@ -1,0 +1,65 @@
+@font-face {
+    font-family: 'McBody';
+    src: url(/fonts/body.woff2);
+}
+
+@font-face {
+    font-family: 'McTitles';
+    src: url(/fonts/titles.woff2);
+}
+
+body {
+    background: rgb(38, 79, 54);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'McTitles';
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    color: #ffbc0d
+}
+
+p {
+    font-family: 'McBody';
+}
+
+.main {
+    position: relative;
+    width: 100%;
+}
+
+.product {
+    background: white;
+    border: none;
+    border-radius: 12px;
+    padding: 1em 0 .3em 0;
+    margin: 2em .2em;
+    min-height: 310px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .5s;
+}
+
+.active {
+    background-color: #ffbc0d;
+}
+
+.product p {
+    font-size: 1.2em;
+    width: 80%;
+    position: absolute;
+    bottom: .2em;
+}
+
+.product img {
+    width: 215px;
+    margin-bottom: 4em;
+}

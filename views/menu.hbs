@@ -1,0 +1,93 @@
+<div class="main text-center">
+    <div class="container">
+        <div class="pt-4 pb-0">
+            <h1>Seleccione hamburguesa</h1>
+        </div>
+        <div class="row pb-5">
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/2ba40c66-8a11-45ac-a8a8-9a7c210972c5_Producto-001-+SIN+SELLO.png?auto=compress,format" alt="">
+                    <p>Big Mac</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/66a6c8a8-2c99-4ff6-a8cc-d46485d5316d_producto-6.png?auto=compress,format" alt="">
+                    <p>McPollo</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/584ea618-9f26-4b58-9b4d-5d27c58f8a5c_producto-7.png?auto=compress,format" alt="">
+                    <p>CBO</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/34c7c5e3-4c52-451a-b517-d663682631f0_10_SinSello.png?auto=compress,format" alt="">
+                    <p>Chicken Burger BBQ</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/e643b50e-865e-411c-99cf-594de82143cb_686x518_GMEBacon.png?auto=compress,format" alt="">
+                    <p>Grand Extrem Bacon</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/e8ddc01d-86a8-4810-ac7f-fa1f547cfb46_686x518_GMEDoubleBacon.png?auto=compress,format" alt="">
+                    <p>Extreme Double Bacon</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/7d18aaa7-1584-418c-8550-27b2c3c1a777_686x518_CuartoLibra.png?auto=compress,format" alt="">
+                    <p>Cuarto de Libra</p>
+                </div>
+            </div>
+            <div class="col-6 col-md-4 col-lg-3">
+                <div class="product">
+                    <img src="https://www.mcdonalds.es/api/cms/images/mcdonalds-es/c9e409b5-5173-4d72-8a3b-9a9557920304_producto-131.png?auto=compress,format" alt="">
+                    <p>McFish</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.start()
+
+    recognition.onresult = (event) => {
+        var selected = false;
+        const results = event.results;
+        const text = results[results.length - 1][0].transcript;
+        console.log(text)
+        $('.product').each(function() {
+            $(this).find('p').text().trim()
+            if ($(this).find('p').text().trim().toLocaleLowerCase().includes(text.trim().toLocaleLowerCase())) {
+                $(this).addClass('active')
+                selected = true;
+            }
+        })
+        const cbo = ["cebo", "cebeo", "hbo", "se veo", "te veo"];
+        if (cbo.includes(text.trim().toLocaleLowerCase())) {
+            $('.product').each(function() {
+                if ($(this).find('p').text().trim().toLocaleLowerCase().includes('cbo')) {
+                    $(this).addClass('active')
+                    selected = true;
+                }
+            })
+        }
+        if (selected) {
+            setTimeout(function() {
+                window.location.href = "/seleccion-complemento";
+            }, 1000)
+        }
+    }
+</script>

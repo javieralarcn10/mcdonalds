@@ -1,0 +1,23 @@
+<div class="main text-center">
+    <div>
+        <img src="/images/logo.svg" alt="" width="180px">
+    </div>
+    <div class="py-5">
+        <h1>Diga McDonald's para comenzar</h1>
+    </div>
+</div>
+<script>
+    let recognition = new webkitSpeechRecognition();
+    recognition.lang = 'es-ES';
+    recognition.continuous = true;
+    recognition.interimResults = false;
+
+    recognition.start()
+    recognition.onresult = (event) => {
+        const results = event.results;
+        const text = results[results.length - 1][0].transcript;
+        if (text.trim().toLocaleLowerCase().includes('donald')) {
+            window.location.href = "/seleccion-menu";
+        }
+    }
+</script>
