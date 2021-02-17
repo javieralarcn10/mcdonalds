@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 //comentario por maria
+=======
+//comentario por javier
+>>>>>>> 15b9b99cdabbd6793423de93175beaf29bc08356
 const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
